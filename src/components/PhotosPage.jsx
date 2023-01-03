@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
-import { fetchPhotos } from '../redux/actions';
+import { fetchPhotoDetail, fetchPhotos } from '../redux/actions';
 import Modal from './Modal';
 
 const PhotosPage = () => {
@@ -23,11 +23,8 @@ const PhotosPage = () => {
     }
   };
 
-  useEffect(() => {
-    console.log('photoDetail', photoDetail);
-  }, [photoDetail]);
-
   const handlePictureClick = (photo) => {
+    dispatch(fetchPhotoDetail(photo.id));
     setPhotoDetail(photo);
     setIsModalOpen(true);
   }
@@ -39,7 +36,7 @@ const PhotosPage = () => {
 
   return (
     <div>
-      <Modal isOpen={isModalOpen} photoDetail={photoDetail} onClose={handleCloseModal}/>
+      <Modal isOpen={isModalOpen} onClose={handleCloseModal}/>
       {photos.results && photos.results.length ? photos.results.map((photo) => {
           return <div key={photo.id} onClick={() => {handlePictureClick(photo)}}>
               <img src={photo.urls.small} alt={photo.alt_description} />

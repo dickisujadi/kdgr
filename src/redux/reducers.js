@@ -1,4 +1,4 @@
-import { SEARCH_PHOTOS, FETCH_PHOTOS, FETCH_PHOTO_DETAIL } from "./actions";
+import { SEARCH_PHOTOS, FETCH_PHOTOS, FETCH_PHOTO_DETAIL, SET_PHOTO_DETAIL } from "./actions";
 
 const initialState = {
     searchQuery: '',
@@ -26,9 +26,15 @@ const reducer = (state = initialState, action) => {
             }
 
         case FETCH_PHOTO_DETAIL:
+            console.log('result', action.payload)
             return {
                 ...state,
-                photos: action.payload,
+                photoDetail: action.payload,
+            }
+
+        case SET_PHOTO_DETAIL:
+            return {
+                ...state
             }
     
         default:

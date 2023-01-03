@@ -1,7 +1,9 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 
-  function Modal({ photoDetail, isOpen, onClose }) {
-    console.log('photoDetail', photoDetail)
+  function Modal({ isOpen, onClose }) {
+    const photoDetail = useSelector((state) => state.photoDetail);
+
     return (
       <div>
         {isOpen && (
@@ -11,7 +13,12 @@ import React from 'react';
                 &times;
               </span>
               <div>
-                  <img src={photoDetail.urls.small} alt={photoDetail.alt_description} />
+                {photoDetail.urls && <div>
+                    <div>Description : {photoDetail.alt_description}</div>
+                    <div>Downloaded : {photoDetail.downloads} times</div>
+                    <div>Location : {photoDetail.location.country} times</div>
+                    <img src={photoDetail.urls.small} alt={photoDetail.alt_description} />
+                </div>}
               </div>
             </div>
           </div>

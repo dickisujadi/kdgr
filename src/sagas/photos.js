@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from "redux-saga/effects";
-import { SEARCH_PHOTOS, FETCH_PHOTOS, FETCH_PHOTO_DETAIL } from "../redux/actions";
+import { SEARCH_PHOTOS, FETCH_PHOTOS, FETCH_PHOTO_DETAIL, SET_PHOTO_DETAIL } from "../redux/actions";
 import { searchPhotos, fetchPhotos, fetchPhotoDetail } from "../sagas/api";
 
 function* searchPhotosSaga(action) {
@@ -28,9 +28,18 @@ function* fetchPhotoDetailSaga(action) {
       console.log(error);
     }
 }
+
+function* setPhotoDetailSaga(action) {
+    try {
+        console.log('setPhotoDetail', action);
+    } catch (error) {
+      console.log(error);
+    }
+}
   
 export default function* rootSaga() {
     yield takeLatest(SEARCH_PHOTOS, searchPhotosSaga);
     yield takeLatest(FETCH_PHOTOS, fetchPhotosSaga);
     yield takeLatest(FETCH_PHOTO_DETAIL, fetchPhotoDetailSaga);
+    yield takeLatest(SET_PHOTO_DETAIL, setPhotoDetailSaga);
 }
