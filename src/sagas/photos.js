@@ -13,7 +13,6 @@ function* searchPhotosSaga(action) {
 
 function* fetchPhotosSaga(action) {
     try {
-        console.log('iki bro', action)
         const response = yield call(searchPhotos, action.payload, 1, action.payload);
         yield put({ type: FETCH_PHOTOS, payload: response.data });
     } catch (error) {
