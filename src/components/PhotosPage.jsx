@@ -4,35 +4,38 @@ import { fetchPhotoDetail, fetchPhotos } from '../redux/actions';
 import Modal from './Modal';
 
 const PhotosPage = () => {
-  const [page, setPage] = useState(1);
   const photos = useSelector((state) => state.photos);
-  const totalPages = useSelector((state) => state.totalPages);
   const dispatch = useDispatch();
-
+  const [page, setPage] = useState(5);
   const [loading, setLoading] = useState(false);
-  const [photoDetail, setPhotoDetail] = useState({});
   const [isModalOpen, setIsModalOpen] = useState(false);
-
-  useEffect(() => {
-    dispatch(fetchPhotos(page));
-  }, [page]);
-
-  const handleLoadMore = () => {
-    if (page < totalPages) {
-      setPage(page + 1);
-    }
-  };
 
   const handlePictureClick = (photo) => {
     dispatch(fetchPhotoDetail(photo.id));
-    setPhotoDetail(photo);
     setIsModalOpen(true);
   }
 
   const handleCloseModal = () => {
-    setPhotoDetail({});
     setIsModalOpen(false);
   }
+
+  function handleScroll() {
+    if (
+      window.innerHeight + document.documentElement.scrollTop !==
+        document.documentElement.offsetHeight ||
+      loading
+    ) {
+      return;
+    }
+    // setPage(prevPage => prevPage + 1);
+    setPage(page+5);
+    dispatch(fetchPhotos(page+5));
+  }
+
+  useEffect(() => {
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   return (
     <div>
@@ -44,7 +47,6 @@ const PhotosPage = () => {
       }) : ''}
 
       {loading && 'Loading ...'}
-      {page < totalPages && <button onClick={handleLoadMore}>Load more</button>}
     </div>
   );
 };
