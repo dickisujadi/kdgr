@@ -5,8 +5,8 @@ import Modal from './Modal';
 
 const PhotosPage = () => {
   const photos = useSelector((state) => state.photos);
+  const totalPages = useSelector((state) => state.totalPages);
   const dispatch = useDispatch();
-  const [page, setPage] = useState(5);
   const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
@@ -27,9 +27,7 @@ const PhotosPage = () => {
     ) {
       return;
     }
-    // setPage(prevPage => prevPage + 1);
-    setPage(page+5);
-    dispatch(fetchPhotos(page+5));
+    dispatch(fetchPhotos(totalPages+5));
   }
 
   useEffect(() => {
